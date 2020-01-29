@@ -64,7 +64,7 @@ async def dostuff(request):
 @app.route('/upload', methods = ['POST'])
 async def upload_file(request):
     bank = request.form.get('bankselect')
-    f = request.files['file']
+    file = request.files['file']
     if bank == 'danskebank':
         # read the large csv file with specified chunksize 
         df_chunk = pd.read_csv(file,delimiter=";", encoding='cp1252', chunksize=200)
