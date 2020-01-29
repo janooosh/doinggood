@@ -61,19 +61,16 @@ async def dostuff(request):
     prediction = learn.predict('lidl')
     return JSONResponse({'result': str(prediction)})
 
-@app.route('/upload', methods = ['GET', 'POST'])
+@app.route('/upload', methods = ['POST'])
 def upload_file(request):
     print("I am in upload method")
-   if request.method == 'POST':
-       print("I am in post if loop")
-      bank = request.form.get('bankselect')
-      #return(str(bank))
+    bank = request.form.get('bankselect')
 
-      f = request.files['file']
-      f.save(f.filename)
-      print("i now call to clean")
-      result = clean(f.filename,bank)
-      return result
+    f = request.files['file']
+    f.save(f.filename)
+    print("i now call to clean")
+    result = clean(f.filename,bank)
+    return result
 
 @app.route('/analyze', methods=['POST'])
 async def analyze(request):
