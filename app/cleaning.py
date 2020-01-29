@@ -3,6 +3,7 @@ import re
 from fastai.text import *
 
 def clean(file,bank):
+    return("Now i am in clean")
     if bank == 'danskebank':
         # read the large csv file with specified chunksize 
         df_chunk = pd.read_csv(file,delimiter=";", encoding='cp1252', chunksize=200)

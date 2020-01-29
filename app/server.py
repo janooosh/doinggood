@@ -63,12 +63,15 @@ async def dostuff(request):
 
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload_file(request):
+    print("I am in upload method")
    if request.method == 'POST':
+       print("I am in post if loop")
       bank = request.form.get('bankselect')
       #return(str(bank))
 
       f = request.files['file']
       f.save(f.filename)
+      print("i now call to clean")
       result = clean(f.filename,bank)
       return result
 
