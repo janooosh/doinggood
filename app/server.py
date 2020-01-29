@@ -45,13 +45,13 @@ async def setup_learner():
 
 loop = asyncio.get_event_loop()
 tasks = [asyncio.ensure_future(setup_learner())]
-learn = loop.run_until_complete(asyncio.gather(*tasks))[0]
+#learn = loop.run_until_complete(asyncio.gather(*tasks))[0]
 loop.close()
 
 
 @app.route('/')
 async def homepage(request):
-    html_file = path / 'view' / 'index.html'
+    html_file = path / 'view' / 'fileupload.html'
     return HTMLResponse(html_file.open().read())
 
 @app.route('/dostuff')
@@ -64,6 +64,10 @@ async def analyze(request):
     img_data = await request.form()
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
+    prediction = learn.predict('lidl')
+    prediction = learn.predict('lidl')
+    return JSONResponse({'result': str(prediction)})
+    return JSONResponse({'result': str(prediction)})
     prediction = learn.predict('lidl')
     return JSONResponse({'result': str(prediction)})
 
