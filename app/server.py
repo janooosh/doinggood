@@ -63,7 +63,7 @@ async def dostuff(request):
 
 @app.route('/upload', methods = ['POST'])
 async def upload_file(request):
-    print("I am in upload method")
+    return("I am in upload method")
     bank = request.form.get('bankselect')
 
     f = request.files['file']
