@@ -55,12 +55,10 @@ async def homepage(request):
     return HTMLResponse(html_file.open().read())
 
 @app.route('/dostuff')
-async def dostuff():
-    try:
-        prediction = learn.predict('lidl')
-        return JSONResponse({'result': str(prediction)})
-    except Exception as e:
-        print(e)
+async def dostuff(request):
+    prediction = learn.predict('lidl')
+    return JSONResponse({'result': str(prediction)})
+
 
 @app.route('/analyze', methods=['POST'])
 async def analyze(request):
