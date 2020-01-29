@@ -63,13 +63,8 @@ async def dostuff(request):
 
 @app.route('/upload', methods = ['POST'])
 async def upload_file(request):
-    
     print("I am in upload method")
-    prediction = learn.predict('lidl')
-    return JSONResponse({'result': str(prediction)})
-     
     bank = request.form.get('bankselect')
-
     f = request.files['file']
     f.save(f.filename)
     print("i now call to clean")
