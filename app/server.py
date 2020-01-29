@@ -53,7 +53,7 @@ loop.close()
 
 @app.route('/')
 async def homepage(request):
-    html_file = path / 'view' / 'index.html'
+    html_file = path / 'view' / 'FileUpload.html'
     return HTMLResponse(html_file.open().read())
 
 @app.route('/dostuff')
