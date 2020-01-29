@@ -32,7 +32,7 @@ async def download_file(url, dest):
 async def setup_learner():
     await download_file(export_file_url, path / export_file_name)
     try:
-        learn = load_learner(path, export_file_name)
+        learn = load_learner('model')
         return learn
     except RuntimeError as e:
         if len(e.args) > 0 and 'CPU-only machine' in e.args[0]:
@@ -45,19 +45,22 @@ async def setup_learner():
 
 loop = asyncio.get_event_loop()
 tasks = [asyncio.ensure_future(setup_learner())]
-#learn = loop.run_until_complete(asyncio.gather(*tasks))[0]
+learn = loop.run_until_complete(asyncio.gather(*tasks))[0]
 loop.close()
 
 
 @app.route('/')
 async def homepage(request):
-    html_file = path / 'view' / 'fileupload.html'
+    html_file = path / 'view' / 'index.html'
     return HTMLResponse(html_file.open().read())
 
 @app.route('/dostuff')
 async def dostuff():
-    prediction = learn.predict('lidl')
-    return JSONResponse({'result': str(prediction)})
+    try:
+        prediction = learn.predict('lidl')
+        return JSONResponse({'result': str(prediction)})
+    except Exception as e:
+        print(e)
 
 @app.route('/analyze', methods=['POST'])
 async def analyze(request):
