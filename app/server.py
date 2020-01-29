@@ -76,8 +76,8 @@ async def upload_file(request):
 
     # Each chunk is in df format
     for chunk in df_chunk:  
-    # append the chunk to list
-    chunk_list.append(chunk)
+        # append the chunk to list
+        chunk_list.append(chunk)
         
     # concat the list into dataframe 
     df= pd.concat(chunk_list)
