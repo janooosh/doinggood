@@ -67,7 +67,7 @@ async def upload_file(request):
     bank='danskebank'
     form = await request.form()
     filename=form['file'].filename
-    file=form['file']
+    file=form['file'].file
 
     # read the large csv file with specified chunksize 
     df_chunk = pd.read_csv(file,delimiter=";", encoding='cp1252', chunksize=200)
