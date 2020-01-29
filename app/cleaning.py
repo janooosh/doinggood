@@ -2,7 +2,7 @@ import pandas as pd
 import re
 from fastai.text import *
 
-def clean(file,bank):
+def clean(file,bank,learn):
     return("Now i am in clean")
     if bank == 'danskebank':
         # read the large csv file with specified chunksize 

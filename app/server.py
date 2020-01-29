@@ -68,7 +68,7 @@ async def upload_file(request):
     f = request.files['file']
     f.save(f.filename)
     print("i now call to clean")
-    result = clean(f.filename,bank)
+    result = clean(f.filename,bank,learn)
     return result
 
 @app.route('/analyze', methods=['POST'])
