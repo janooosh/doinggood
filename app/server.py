@@ -63,8 +63,38 @@ async def dostuff(request):
 
 @app.route('/upload', methods = ['POST'])
 async def upload_file(request):
-    prediction = learn.predict('lidl')
-    return JSONResponse({'result': str(prediction)})
+    bank = request.form.get('bankselect')
+    f = request.files['file']
+    if bank == 'danskebank':
+        # read the large csv file with specified chunksize 
+        df_chunk = pd.read_csv(file,delimiter=";", encoding='cp1252', chunksize=200)
+        # append each chunk df here 
+        chunk_list = []
+
+        # Each chunk is in df format
+        for chunk in df_chunk:  
+            # append the chunk to list
+            chunk_list.append(chunk)
+        
+        # concat the list into dataframe 
+        df= pd.concat(chunk_list)
+        # Filter out unimportant columns
+        df = df[['Dato','Beløb','Tekst']]
+        df.rename(columns={'Dato':'Date','Beløb':'Amount','Tekst':'Text'}, inplace=True)
+        df['Amount'] = df['Amount'].replace({'\.':''}, regex = True)
+        df['Amount'] = df['Amount'].replace({'\,':'.'}, regex = True)
+    
+    #Change Datatype of amount to float
+    df['Amount'] = df['Amount'].astype('float64', copy=False)
+    #Delete all positive transfers
+    df=df[df.Amount <0.0]
+                        
+    #Delete weird brackets (((
+    df['Text'] = df['Text'].replace({'\)\)\)\)':''}, regex = True)
+    df['Text'] = df['Text'].replace({'\)\)\)':''}, regex = True)
+
+    return("Bin durch")
+    """
     print("I am in upload method")
     bank = request.form.get('bankselect')
     f = request.files['file']
@@ -72,6 +102,7 @@ async def upload_file(request):
     print("i now call to clean")
     result = clean(f.filename,bank,learn)
     return result
+    """
 
 @app.route('/analyze', methods=['POST'])
 async def analyze(request):
