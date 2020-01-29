@@ -62,7 +62,7 @@ async def dostuff(request):
     return JSONResponse({'result': str(prediction)})
 
 @app.route('/upload', methods = ['POST'])
-def upload_file(request):
+async def upload_file(request):
     print("I am in upload method")
     bank = request.form.get('bankselect')
 
