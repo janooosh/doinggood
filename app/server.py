@@ -9,6 +9,8 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import HTMLResponse, JSONResponse
 from starlette.staticfiles import StaticFiles
 
+from cleaning import clean
+
 export_file_url = 'https://drive.google.com/uc?export=download&id=1C5s0l2jOZAUGnUEsq7k3TF-SlyL9K7dg'
 export_file_name = 'export.pkl'
 
@@ -59,6 +61,16 @@ async def dostuff(request):
     prediction = learn.predict('lidl')
     return JSONResponse({'result': str(prediction)})
 
+@app.route('/upload', methods = ['GET', 'POST'])
+def upload_file(request):
+   if request.method == 'POST':
+      bank = request.form.get('bankselect')
+      #return(str(bank))
+
+      f = request.files['file']
+      f.save(f.filename)
+      result = clean(f.filename,bank)
+      return result
 
 @app.route('/analyze', methods=['POST'])
 async def analyze(request):
