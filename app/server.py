@@ -63,26 +63,29 @@ async def dostuff(request):
 
 @app.route('/upload', methods = ['POST'])
 async def upload_file(request):
-    bank = request.form['bankselect']
-    file = request.form['file']
-    if bank == 'danskebank':
-        # read the large csv file with specified chunksize 
-        df_chunk = pd.read_csv(file,delimiter=";", encoding='cp1252', chunksize=200)
-        # append each chunk df here 
-        chunk_list = []
 
-        # Each chunk is in df format
-        for chunk in df_chunk:  
-            # append the chunk to list
-            chunk_list.append(chunk)
+    bank='danskebank'
+    form = await_request.form()
+    filename=form['file'].filename
+    file=form['file']
+
+    # read the large csv file with specified chunksize 
+    df_chunk = pd.read_csv(file,delimiter=";", encoding='cp1252', chunksize=200)
+    # append each chunk df here 
+    chunk_list = []
+
+    # Each chunk is in df format
+    for chunk in df_chunk:  
+    # append the chunk to list
+    chunk_list.append(chunk)
         
-        # concat the list into dataframe 
-        df= pd.concat(chunk_list)
-        # Filter out unimportant columns
-        df = df[['Dato','Beløb','Tekst']]
-        df.rename(columns={'Dato':'Date','Beløb':'Amount','Tekst':'Text'}, inplace=True)
-        df['Amount'] = df['Amount'].replace({'\.':''}, regex = True)
-        df['Amount'] = df['Amount'].replace({'\,':'.'}, regex = True)
+    # concat the list into dataframe 
+    df= pd.concat(chunk_list)
+    # Filter out unimportant columns
+    df = df[['Dato','Beløb','Tekst']]
+    df.rename(columns={'Dato':'Date','Beløb':'Amount','Tekst':'Text'}, inplace=True)
+    df['Amount'] = df['Amount'].replace({'\.':''}, regex = True)
+    df['Amount'] = df['Amount'].replace({'\,':'.'}, regex = True)
     
     #Change Datatype of amount to float
     df['Amount'] = df['Amount'].astype('float64', copy=False)
