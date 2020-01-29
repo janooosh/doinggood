@@ -65,7 +65,7 @@ async def dostuff(request):
 async def upload_file(request):
 
     bank='danskebank'
-    form = await_request.form()
+    form = await request.form()
     filename=form['file'].filename
     file=form['file']
 
