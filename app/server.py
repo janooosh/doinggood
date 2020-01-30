@@ -69,7 +69,10 @@ async def upload_file(request):
     form = await request.form()
     filename=form['file'].filename
     file_bytes=form['file'].file.read()
-    file = open(BytesIO(file_bytes))
+    #file = open(BytesIO(file_bytes))
+    file_data = str(file_bytes,'utf-8')
+    file=StringIO(file_data)
+    
     #file=form['file']
 
     # read the large csv file with specified chunksize 
