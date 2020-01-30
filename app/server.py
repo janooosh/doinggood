@@ -88,6 +88,7 @@ async def upload_file(request):
     # concat the list into dataframe 
     df= pd.concat(chunk_list)
     # Filter out unimportant columns
+    return(df.head())
     df = df[['Dato','Beløb','Tekst']]
     df.rename(columns={'Dato':'Date','Beløb':'Amount','Tekst':'Text'}, inplace=True)
     df['Amount'] = df['Amount'].replace({'\.':''}, regex = True)
