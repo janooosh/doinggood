@@ -71,7 +71,7 @@ async def upload_file(request):
     file_bytes=form['file'].file.read()
     #file = open(BytesIO(file_bytes))
     file_data = str(file_bytes)
-    file=StringIO(file_bytes)
+    file=StringIO(file_data)
     
     #file=form['file']
 
